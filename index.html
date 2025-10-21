@@ -272,6 +272,29 @@
           content: "";
         }
       }
+      .gps_ring {
+        border: 3px solid #EF4444; /* red-500 */
+        border-radius: 50%;
+        height: 18px;
+        width: 18px;
+        background-color: #F87171; /* red-400 */
+        animation: pulsate 1.5s ease-out infinite;
+        -webkit-animation: pulsate 1.5s ease-out infinite;
+      }
+
+      @keyframes pulsate {
+          0% {
+              transform: scale(0.1, 0.1);
+              opacity: 0.0;
+          }
+          50% {
+              opacity: 1.0;
+          }
+          100% {
+              transform: scale(1.2, 1.2);
+              opacity: 0.0;
+          }
+      }
     </style>
   <script type="importmap">
 {

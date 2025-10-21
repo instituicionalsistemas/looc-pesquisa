@@ -105,7 +105,7 @@ const mapResponseFromDb = (dbResponse: any, answers: any[]): SurveyResponse => (
     })),
 });
 
-const mapLocationPointFromDb = (dbPoint: any): LocationPoint => ({
+export const mapLocationPointFromDb = (dbPoint: any): LocationPoint => ({
     id: dbPoint.id,
     researcherId: dbPoint.id_pesquisador,
     latitude: dbPoint.latitude,
@@ -220,4 +220,20 @@ export const getResearcherRoute = async (researcherId: string, date: string): Pr
         return [];
     }
     return data.map(mapLocationPointFromDb);
+}
+
+export const getResearcherLastLocation = async (researcherId: string): Promise<LocationPoint | null> => {
+    const { data, error } = await supabase
+        .from('pesquisador_localizacao')
+        .select('*')
+        .eq('id_pesquisador', researcherId)
+        .order('timestamp', { ascending: false })
+        .limit(1)
+        .single();
+
+    if (error || !data) {
+        console.warn("Não foi possível buscar a última localização:", researcherId, error?.message);
+        return null;
+    }
+    return mapLocationPointFromDb(data);
 }
